@@ -1,7 +1,7 @@
 defmodule Thrower.AttackMode do
-  @type radar_entry :: map() #TODO wrap into struct
+  # TODO wrap into struct
+  @type radar_entry :: map()
   @type reason :: atom()
 
   @callback apply([radar_entry()]) :: :ok | {:error, reason()}
-
 end
