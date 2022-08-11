@@ -44,7 +44,9 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :thrower, :attack_modes, closest_first: Thrower.AttackMode.ClosestFirst
+config :thrower, :attack_modes, 
+  closest_first: Thrower.AttackMode.ClosestFirst,
+  furthest_first: Thrower.AttackMode.FurtherstFirst
 # TODO others
 
 # Import environment specific config. This must remain at the bottom
