@@ -46,8 +46,9 @@ config :phoenix, :json_library, Jason
 
 config :thrower, :attack_modes, 
   closest_first: Thrower.AttackMode.ClosestFirst,
-  furthest_first: Thrower.AttackMode.FurtherstFirst
-# TODO others
+  furthest_first: Thrower.AttackMode.FurthestFirst,
+  prioritize_vader: Thrower.AttackMode.PrioritizeVader,
+  avoid_crossfire: Thrower.AttackMode.AvoidCrossfire
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
