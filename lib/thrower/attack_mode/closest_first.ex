@@ -12,6 +12,7 @@ defmodule Thrower.AttackMode.ClosestFirst do
     |> get_closest()
   end
 
+  @impl AttackMode
   def opposite_to?(mode) do
     false
     # mode in @opposite_attack_modes

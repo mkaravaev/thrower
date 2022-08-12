@@ -11,6 +11,7 @@ defmodule Thrower.AttackMode.PrioritizeVader do
     |> exclude_good_characters()
   end
 
+  @impl AttackMode
   def opposite_to?(mode) do
     false
     # mode in @opposite_attack_modes

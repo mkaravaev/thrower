@@ -12,6 +12,7 @@ defmodule Thrower.AttackMode.AvoidCrossfire do
     |> hd()
   end
 
+  @impl AttackMode
   def opposite_to?(mode) do
     false
     # mode in @opposite_attack_modes
