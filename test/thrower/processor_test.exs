@@ -45,21 +45,14 @@ defmodule Thrower.ProcessorTest do
   end
 
   describe "run/2" do
-    test "should process all attack_modes" do
-      assert %{position: %{x: 0, y: 40}, villains: [%{costume: "Shir Khan"}, %{costume: "Voldemort"}]} =
-               test_params()
-               |> Processor.parse_radar_entries()
-               |> then(&Processor.run([:closest_first], &1))
-    end
-
     test "should process several attack modes" do
       assert [
-        %{position: %{x: 0, y: 40}, 
+        %{position: %{x: 0, y: 40},
           villains: [
-            %{costume: "Shir Khan"}, 
+            %{costume: "Shir Khan"},
             %{costume: "Voldemort"}]
         }, 
-        %{position: %{x: 0, y: 20}, 
+        %{position: %{x: 0, y: 20},
           villains: [%{costume: "Darth Vader"}]
          }
       ] = 
@@ -69,9 +62,16 @@ defmodule Thrower.ProcessorTest do
     end
 
     test "should not process opposite mode" do
-       test_params()
+      assert [
+        %{position: %{x: 0, y: 40},
+          villains: [
+            %{costume: "Shir Khan"},
+            %{costume: "Voldemort"}]
+        }
+      ] =
+       test_params_2()
        |> Processor.parse_radar_entries()
-       |> then(&Processor.run([:closest_first, :furthers_first], &1))
+       |> then(&Processor.run([:furthest_first, :closest_first], &1))
     end
   end
 
@@ -103,10 +103,6 @@ defmodule Thrower.ProcessorTest do
         "villains" => [
           %{
             "costume" => "Donald Duck"
-          },
-
-          %{
-            "costume" => "Darth Vader"
           }
         ]
       }

@@ -3,6 +3,7 @@ defmodule Thrower.AttackMode.PrioritizeVader do
   alias Thrower.AttackMode
 
   @good_characters ["Donald Duck"]
+  @opposite_attack_modes []
 
   @impl AttackMode
   def apply(radar_entries) do
@@ -12,9 +13,8 @@ defmodule Thrower.AttackMode.PrioritizeVader do
   end
 
   @impl AttackMode
-  def opposite_to?(mode) do
-    false
-    # mode in @opposite_attack_modes
+  def opposite_to?(prev_mode) do
+    prev_mode in @opposite_attack_modes
   end
 
   defp exclude_good_characters(radar_entry) do

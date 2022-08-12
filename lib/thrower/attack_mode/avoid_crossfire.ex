@@ -3,6 +3,7 @@ defmodule Thrower.AttackMode.AvoidCrossfire do
   alias Thrower.AttackMode
 
   @good_characters ["Donald Duck"]
+  @opposite_attack_modes []
 
   @impl AttackMode
   def apply(radar_entries) do
@@ -14,8 +15,7 @@ defmodule Thrower.AttackMode.AvoidCrossfire do
 
   @impl AttackMode
   def opposite_to?(mode) do
-    false
-    # mode in @opposite_attack_modes
+    mode in @opposite_attack_modes
   end
 
   defp filter_good_characters_area(radar_entries) do
