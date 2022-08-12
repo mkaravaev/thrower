@@ -19,7 +19,8 @@ defmodule Thrower.ProcessorTest do
                  position: %RadarEntry.Position{x: 0, y: 20},
                  villains: [%RadarEntry.Villain{costume: "Donald Duck", malice: 0}]
                }
-             ] = Processor.parse_radar_entries(test_params())
+             ] =
+               Processor.parse_radar_entries(test_params())
     end
 
     test "should raise an error in case bad params" do
@@ -45,8 +46,32 @@ defmodule Thrower.ProcessorTest do
 
   describe "run/2" do
     test "should process all attack_modes" do
-      assert %{position: %{x: 0, y: 40}, villains: ["Shir Khan", "Voldemort"]} =
-               Processor.run([:closest_first], test_params())
+      assert %{position: %{x: 0, y: 40}, villains: [%{costume: "Shir Khan"}, %{costume: "Voldemort"}]} =
+               test_params()
+               |> Processor.parse_radar_entries()
+               |> then(&Processor.run([:closest_first], &1))
+    end
+
+    test "should process several attack modes" do
+      assert [
+        %{position: %{x: 0, y: 40}, 
+          villains: [
+            %{costume: "Shir Khan"}, 
+            %{costume: "Voldemort"}]
+        }, 
+        %{position: %{x: 0, y: 20}, 
+          villains: [%{costume: "Darth Vader"}]
+         }
+      ] = 
+       test_params_2()
+       |> Processor.parse_radar_entries()
+       |> then(&Processor.run([:furthest_first, :prioritize_vader], &1))
+    end
+
+    test "should not process opposite mode" do
+       test_params()
+       |> Processor.parse_radar_entries()
+       |> then(&Processor.run([:closest_first, :furthers_first], &1))
     end
   end
 
@@ -78,6 +103,48 @@ defmodule Thrower.ProcessorTest do
         "villains" => [
           %{
             "costume" => "Donald Duck"
+          },
+
+          %{
+            "costume" => "Darth Vader"
+          }
+        ]
+      }
+    ]
+  end
+
+  defp test_params_2 do
+    [
+      %{
+        "position" => %{
+          "x" => 0,
+          "y" => 40
+        },
+        "villains" => [
+          %{
+            "costume" => "Shir Khan",
+            "malice" => 80
+          },
+          %{
+            "costume" => "Voldemort"
+          },
+          %{
+            "costume" => "Donald Duck"
+          }
+        ]
+      },
+      %{
+        "position" => %{
+          "x" => 0,
+          "y" => 20
+        },
+        "villains" => [
+          %{
+            "costume" => "Donald Duck"
+          },
+
+          %{
+            "costume" => "Darth Vader"
           }
         ]
       }
