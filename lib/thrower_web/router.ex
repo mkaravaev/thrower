@@ -16,8 +16,12 @@ defmodule ThrowerWeb.Router do
 
   scope "/", ThrowerWeb do
     pipe_through :browser
-
     get "/", PageController, :index
+  end
+
+  scope "/radar", ThrowerWeb do
+    pipe_through :api
+    post "/", ThrowerController, :throw
   end
 
   # Other scopes may use custom stacks.
