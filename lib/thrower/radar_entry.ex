@@ -10,11 +10,18 @@ defmodule Thrower.RadarEntry do
     }
   end
 
-  defp parse_villains(villains) do
+  defp parse_villains(villain) when is_map(villain) do
+    villain
+    |> __MODULE__.Villain.new()
+    |> List.wrap()
+  end
+  defp parse_villains(villains) when is_list(villains) do
     Enum.map(villains, &__MODULE__.Villain.new/1)
   end
 
   defmodule Position do
+    @derive Jason.Encoder
+
     defstruct [x: 0, y: 0]
 
     def new(%{"x" => x, "y" => y}) do
