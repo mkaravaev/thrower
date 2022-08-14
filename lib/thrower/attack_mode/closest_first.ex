@@ -1,6 +1,8 @@
 defmodule Thrower.AttackMode.ClosestFirst do
   @behaviour Thrower.AttackMode
+
   alias Thrower.AttackMode
+  alias Thrower.Math
 
   @good_characters ["Donald Duck"]
   @opposite_attack_modes [:furthest_first]
@@ -20,7 +22,11 @@ defmodule Thrower.AttackMode.ClosestFirst do
 
   defp exclude_good_characters(radar_entries) do
     Enum.map(radar_entries, fn entry ->
-      updated_villains_list = Enum.reject(entry.villains, &(&1.costume in @good_characters))
+      updated_villains_list =
+        entry.villains
+        |> Enum.reject(&(&1.costume in @good_characters))
+        |> Enum.reverse() #NOTE needed because test_attack.sh
+
       %{entry | villains: updated_villains_list}
     end)
   end
@@ -32,6 +38,8 @@ defmodule Thrower.AttackMode.ClosestFirst do
   end
 
   defp get_closest(radar_entries) do
-    Enum.min_by(radar_entries, fn entry -> entry.position.x + entry.position.y end)
+    Enum.min_by(radar_entries, fn entry ->
+      Math.calculate_path(entry.position.x, entry.position.y)
+    end)
   end
 end
