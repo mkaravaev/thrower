@@ -2,6 +2,6 @@ defmodule ThrowerWeb.PageController do
   use ThrowerWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    json(conn, "hello")
   end
 end

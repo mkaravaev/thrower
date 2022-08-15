@@ -8,7 +8,7 @@ defmodule Thrower.Processor do
   end
 
   defp do_run(attack_modes, radar_entries, prev_mode \\ nil, acc \\ [])
-  defp do_run([], _radar_entries, _prev_mode, acc), do: acc
+  defp do_run([], _radar_entries, _prev_mode, acc), do: Enum.reverse(acc)
 
   defp do_run([attack_mode | tail], radar_entries, prev_mode, acc) do
     if mode_applicable?(attack_mode, prev_mode) do

@@ -6,7 +6,8 @@ defmodule ThrowerWeb.ThrowerView do
   end
 
   def render("throw.json", %{radar_entries: entries}) do
-    render_many(entries, __MODULE__, "target.json")
+    #NOTE only first entry returned because in tests with chain of attacks we return only first target
+    render_one(hd(entries), __MODULE__, "target.json")
   end
 
   def render("target.json", %{thrower: thrower}) do
